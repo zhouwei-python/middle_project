@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="{% static 'js/jquery_1.8.js' %}"></script>
+    <script src="{% static 'js/jquery_cookie.js' %}"></script>
+    <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+	<link rel="shortcut icon" href="images/favicon.ico?v=20160901" type="image/x-icon">
+    <link href="{% static 'css/shopping_cart_new.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/footer_150526.css' %}" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body style="padding-bottom:82px">
+
+<link href="{% static 'css/header_960_150611.css' %}" rel="stylesheet" type="text/css">
+<script src="{% static 'js/pagetop2015_0827.js' %}" charset="gb2312" type="text/javascript"></script>
+
+<div id="hd">
+<div id="tools">
+<div class="tools">
+    <div class="ddnewhead_operate" dd_name="顶链接">
+        {% if status == '1' %}
+            <span id="nickname">
+                <span class="hi">Hi，
+                    <a href="#" class="login_link">
+                        <b style="color: orange">{{name}}</b>
+                    </a>
+                    <a href="{% url 'testapp:logout' %}" target="_self">[退出]</a>
+                </span>
+            </span>
+            {% else %}
+            <span id="nickname">
+                <span class="hi"><span style="color: black">欢迎光临当当，请</span>
+                    <a href="{% url 'testapp:login' %}" class="login_link" target="_blank">
+                        <b>登录</b>
+                    </a>
+                    <a href="{% url 'testapp:regist' %}">免费注册</a>
+                </span>
+            </span>
+            {% endif %}
+
+
+        
+            <div class="tel_pop" style="display:none" id="__ddnav_sjdd" onmouseover="showgaoji('a_phonechannel','__ddnav_sjdd');" onmouseout="hideotherchannel('a_phonechannel','__ddnav_sjdd');">
+                <a target="_blank" href="http://t.dangdang.com/20130220_ydmr" class="title"><i class="icon_tel"></i>手机当当</a><i class="title_shadow"></i>
+                <ul class="tel_pop_box">
+                    <li><a href="http://t.dangdang.com/20130220_ydmr" dd_name="手机二维码"><span>当当手机客户端</span><img src="http://img3.ddimg.cn/00363/doc/erweima2.png"><span class="text">随手查订单<br>随时享优惠</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="new_head_znx" id="znx_content" style="display:none;"></div>
+    </div>
+</div>
+</div>
+<div id="header_end"></div>
+<!--CreateDate  2016-09-28 11:30:01--></div>
+<form action="http://search.dangdang.com/search.aspx" id="bootpagetopSearch" name="bootpagetopSearch" method="GET"></form>
+<script type="text/javascript">var nick_num = 0;initHeaderOperate();</script><script type="text/javascript" src="http://orderb.dangdang.com/queryunpaid?callback=Unpaid_Data"></script>
+		<div class="shoppingcart_wrapper" id="ad_cpt_11850"><div><a href="http://a.dangdang.com/tjump.php?q=ddo84XQOf357bOs8tXGg5%2F%2F0oVoDImt3DFWsMqu7ZMSVsfUMeOQJueASNiMLjq%2FdrXMLCKnVfyKEahteAh1ih%2ByKYrKGzhvL20LVbDzObRambBA0YPpivy5hR5foQ4Rt%2BTB" target="_blank" rel="nofollow"><img src="http://img62.ddimg.cn/2017/1/11/2017011111344969879.jpg"></a></div></div>
+<div class="logo_line">
+    <div class="w960">
+        <div class="shopping_procedure01 shopping_procedure "><span>我的购物车</span><span class="current">填写订单</span><span>完成订单</span></div>
+        <div class="logo"><a href="#"><img src="{% static 'images/bz_logo_car.jpg' %}" alt=""></a></div>
+    </div>
+</div>
+            
+<div class="indent_con">
+	<div class="shdz">
+    	<h3>收货相关信息</h3>
+
+        <ul class="shdz_con">
+            <p>▪ 常用地址</p>
+            <select name="addr" id="addr" style="width:200px;">
+            {% if address|length == 0 %}
+                  <option value="0">还没数据，请先添加！</option>
+            {% else %}  
+                <option value="0">--请选择--</option>
+                {% for addr in address %}
+                    <option value="{{ forloop.counter }}" style="width:200px;">{{addr.detail_address}}/{{addr.name}}/{{addr.zipcode}}/{{addr.telphone}}/{{addr.addr_phone}}</option>
+                {% endfor %}
+            {% endif %}
+            </select>
+            
+            <script type="text/javascript">
+                    $(function() {
+                    $("[name='addr']").change(function(){
+                        var addr = $(this).val();
+                        addr = parseInt(addr)
+                        var name = $(this).children("option:eq("+addr+")").html();
+                        $.ajax({
+                            type : 'get',
+                            url : "{% url 'cartapp:indent_logic' %}",
+                            data : "value="+name,
+                            success : function(msg){
+                                
+                                $("[name='ship_man']:eq(0)").attr('value', msg['name']);
+                                $("[name='ship_man']:eq(1)").attr('value', msg['detail_address']);
+                                $("[name='ship_man']:eq(2)").attr('value', msg['zipcode']);
+                                $("[name='ship_man']:eq(3)").attr('value', msg['telphone']);
+                                if(msg['addr_phone'] === 'None'){
+                                    $("[name='ship_man']:eq(4)").attr('value', '');
+                                }else{
+                                    $("[name='ship_man']:eq(4)").attr('value', msg['addr_phone']);
+                                }
+                                
+                                if(addr>0){
+                                    $("[name='ship_man']").attr('disabled','true');
+                                }else{
+                                    $("[name='ship_man']").removeAttr('disabled');
+                                }
+
+                            },
+                        });
+                        
+                    });
+                    });
+                    </script>
+            
+            <p>▪ 收货地址</p>
+        	<li>
+                <label><strong>*</strong>收&nbsp;&nbsp;货&nbsp;&nbsp;人：</label>
+                <input type="text" name="ship_man">
+                
+            </li>
+            <li><label><strong>*</strong>详细地址：</label><input type="text" name="ship_man" ></li>
+            <li><label><strong>*</strong>邮政编码：</label><input type="text" name="ship_man" ><span id="zip"></span></li>
+            <li><label><strong>*</strong>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机：</label>
+                <input type="text" name="ship_man" ><label>或&nbsp;&nbsp;固定电话</label>
+                <input type="text" name="ship_man"  >
+                <span id="tel"></span>
+            </li>
+            <li><span id="spn_ship_man" class="hint new_tip" style="display: none; color: red;"></span></li>
+             
+        </ul>
+
+    
+        <div class="balance"><p>商品金额：¥{{re.2}}</p><p class="yfze">应付总额（含运费）：<em>¥{{re.0}}</em></p>
+            <p><a href="javascript:void(0);" id="sub">提交订单</a></p>
+        </div>
+
+        <script type="text/javascript">
+                mark_name=1;mark_addr=1;mark_zipcode=1;mark_telphone=1;mark_addr_phone=1;
+                
+                $("[name='ship_man']:eq(0)").blur(function(){
+                    addr_name = $("[name='ship_man']:eq(0)").val();
+                    if(addr_name===''){
+                        mark_name = 0;
+                        $("#spn_ship_man").show().html('请填写收货人姓名');
+                        $("#spn_ship_man").fadeOut(2000);
+                    }else{
+                        mark_name = 1;
+                    }
+                });
+
+                $("[name='ship_man']:eq(1)").blur(function(){
+                    addr_addr = $("[name='ship_man']:eq(1)").val();
+                    if(addr_addr===''){
+                        mark_addr = 0;
+                        $("#spn_ship_man").show().html('请输入详细地址');
+                        $("#spn_ship_man").fadeOut(2000);
+                    }else{
+                        mark_addr = 1;
+                    }
+                });
+
+                $("[name='ship_man']:eq(2)").blur(function(){
+                    addr_zipcoding = $("[name='ship_man']:eq(2)").val();
+                     console.log(addr_zipcoding);
+                    if(addr_zipcoding===''){
+                        mark_zipcode = 0;
+                        $("#spn_ship_man").show().html('请输入邮编');
+                        $("#spn_ship_man").fadeOut(2000);
+                    }else if(!(/^[0-9]{6}$/.test(addr_zipcoding))){
+                        mark_zipcode = 0;
+                        $('#zip').show().html("邮编输入有误").css('color','red');
+                        $('#zip').fadeOut(2000);
+                    }else{
+                        mark_zipcode = 1;
+                        $('#zip').fadeIn();
+                        $('#zip').show().html("邮编输入正确").css('color','black'); 
+                    }
+                });
+
+                $("[name='ship_man']:eq(3)").blur(function(){
+                    addr_telphone = $("[name='ship_man']:eq(3)").val();
+                    addr_phone =$("[name='ship_man']:eq(4)").val();
+                    if(addr_telphone===''){
+                        mark_telphone = 0;
+                        mark_addr_phone = 0;
+                        $("#spn_ship_man").show().html('请输入手机号');
+                        $("#spn_ship_man").fadeOut(2000);
+
+                    }else if(!(/^1[3456789]\d{9}$/).test(addr_telphone)){
+                        mark_telphone = 0;
+                        $('#tel').show().html("电话号码输入有误").css('color','red');
+                        $('#tel').fadeOut(2000);
+                    }
+                    else if(addr_phone.length!=0 && !(/^1[3456789]\d{9}$/).test(addr_phone)){
+                        mark_addr_phone = 0;
+                        $('#tel').show().html("电话号码输入有误").css('color','red');
+                        $('#tel').fadeOut(2000);
+                        
+                    }else{
+                        mark_telphone = 1;
+                        $('#tel').fadeIn();
+                        $('#tel').show().html("电话号码输入正确").css('color','black'); 
+                    }
+                    
+                });
+            $("#sub").click(function(){
+                if(mark_name+mark_addr+mark_zipcode+mark_telphone === 4){
+                    if({{cart_len}}=== 0){
+                        alert('请先添加书籍哦！');
+                        location.href = '{% url 'testapp:book_list' %}?id=1';
+                    }else{
+                        addr_name = $("[name='ship_man']:eq(0)").val();
+                        addr_addr = $("[name='ship_man']:eq(1)").val();
+                        addr_zipcoding = $("[name='ship_man']:eq(2)").val();
+                        addr_telphone = $("[name='ship_man']:eq(3)").val();
+                        addr_phone = $("[name='ship_man']:eq(4)").val();
+                        if(addr_name===''||addr_addr===''||addr_zipcoding===''||addr_telphone===''){
+                            $("#spn_ship_man").show().html('输入不为空！');
+                        }else{
+                            $.ajax({
+                                type : 'get',
+                                url : "{% url 'cartapp:validate_addr' %}",
+                                data : "name="+addr_name+"&addr="+addr_addr+"&zipcode="+addr_zipcoding+"&telphone="+addr_telphone+"&addr_phone="+addr_phone+"&user_name={{name}}",
+                                success:function(msg){
+                                    console.log(msg);
+                                    if(msg==='error'){
+                                        alert('您还没订单呢');
+                                        location.href = "{% url 'testapp:book_list' %}?id=1";
+                                    }else{
+                                        location.href = '{% url "cartapp:show_indent_ok" %}?order_id='+msg['order_id']+'&give_name='+msg['give_name']+'&items_sum='+msg['items_sum']+'&total_price='+msg['total_price'];
+                                    }
+                                    
+                                }, 
+                            });
+                        }
+                        
+                    }
+                    
+                }else{
+                    alert('输入有误')
+                }
+                
+                
+            });
+        </script>
+
+    </div>
+    <div class="shdz">
+    	<h3>订单1（百知网配送）</h3>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr style="height:30px; line-height:30px;">
+                <th width="34%">商品名称</th>
+                <th width="11%">所在仓库</th>
+                <th width="13%">百知价</th>
+                <th width="11%">促销价</th>
+                <th width="9%">数量</th>
+                <th width="11%">小计</th>
+                <th width="11%">操作</th>
+            </tr>
+            
+                {% for foo in cart %}               
+                    <tr>
+                        <td>{{foo.book.book_name}}</td>
+                        <td align="center">{{foo.book.publisher}}</td>
+                        <td align="center">¥{{foo.book.original_cost}}
+                            {% if foo.book.rel_price != foo.book.original_cost %}
+                                （{% widthratio foo.book.rel_price foo.book.original_cost 100 %}折）
+                            {% else %}
+                                (暂无折扣)
+                            {% endif %}
+                        </td>
+                        <td align="center">{{foo.book.rel_price}}</td>
+                        <td align="center">{{foo.count}}本</td>
+                        <td align="center">¥{% widthratio foo.book.rel_price 1 foo.count %}</td>
+                        <td align="center"><a href="#">放回购物车</a></td>
+                       
+                    </tr>
+                     {% endfor %}
+                     <tr>
+                        <td colspan="2"><input type="checkbox" >此订单作为礼品赠送他人</td>
+                        <td colspan="2"><strong>运费：</strong>当确认送货方式后显示</td>
+                        <td class="table_zj" colspan="3"><strong>小计总额：</strong><em>¥{{re.0}}</em></td>
+                    </tr>
+                
+            
+        </tbody></table>
+    </div>
+     
+</div>
+
+<div id="footer">
+<div class="footer">
+	<div class="footer_nav_box">
+		<div class="footer_copyright"><span>Copyright (C) 当当网 2004-2014, All Rights Reserved</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001051000098" target="_blank" class="footer_img" rel="nofollow"><img src="http://img4.dangdang.com/bottom/validate.gif"></a><span><a href="http://www.miibeian.gov.cn/" target="_blank" rel="nofollow">京ICP证041189号</a></span><span>出版物经营许可证&nbsp;新出发京批字第直0673号</span></div>
+	</div>
+</div>
+</div>
+    <div class="foot_tip_ad">广告</div>
+    <style>
+        .foot_tip_ad { width:40px; height:40px; font:12px/40px "simsun"; text-align:center; color:#fff; background-color:#474747; position:fixed; right:0; bottom:10px;_position:absolute; _bottom:auto;_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));}
+    </style>
+
+
+</body>
+</html>

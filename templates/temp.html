@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+              $(function() {
+                 $("[name='Jg']").click(function(){
+                    $.ajax({
+                      type : 'GET',
+                      url : '{% url 'testapp:book_order_by_price' %}',
+                      data : "id={{cate_parent.0.id}}&page_id={{page.number}}"
+                      success:function(msg){
+                        console.log(msg);
+                        str='';
+                        $("#23668351").remove();
+                        each(function(index, el) {
+                          str+='<li class="line1" id="23668351">';
+                          str+='<div class="inner">';
+                          str+='<a title=" {{relate_book.book_name}} " class="pic" href="{% url 'testapp:book_details' %}?book_id={{relate_book.id}}" target="_blank">'+
+                          '<img src="{% static relate_book.product_image_path %}" alt=" {{relate_book.book_name}} "></a>';
+                          str+='<p class="name">';
+                          str+='<a title=" {{relate_book.book_name}} " href="{% url 'testapp:book_details' %}?book_id={{relate_book.id}}" target="_blank"> {{relate_book.book_name}} </a>';
+                          str+=' </p>';
+                          str+='<p class="star">'+
+              '<span class="level"><span style="width: 100%;"></span></span>'+
+              '<a href="#" target="_blank" name="P_pl">{{relate_book.comment}}条评论</a>'+
+              '</p>';
+                          str+='<div class="publisher_info">'+
+                          '<p class="author"><span></span><a href="#" name="P_zz" title="张皓宸">{{relate_book.author}}</a></p>'+
+                          '<p class="publishing_time"><span></span>/ {{relate_book.publish_time}} </p>'+
+                          '<p class="publishing"><span></span>/ <a href="#" name="P_cbs" title="{{relate_book.publisher}}">{{relate_book.publisher}}</a></p>'+
+                         '</div>';
+                          str+='<p class="detail"> {{relate_book.author_intro}} </p>'+
+            '<p class="dang" style="display: block;">当当自营</p>'+
+            '<p class="buy_button"><a class="listbtn_info" name="area_buy" dd_name="查看详情" href="javascript:goto_product(23668351)" >查看详情</a></p>'
+            +'<p class="price"> <span class="price_n">￥{{relate_book.rel_price}}</span><a style="color: #878787;text-decoration:none;">定价：</a><span class="price_r">￥{{relate_book.original_cost}}</span>(<span class="price_s">{% widthratio relate_book.rel_price relate_book.original_cost 10 %}折</span>)</p>';
+                          str+='<div class="ebook_buy">'+
+                          '<p class="buy_button"><a class="listbtn_buy" id="A13" dd_name="加入购物车" href="javascript:AddToShoppingCart('1900650091')" name="Buy"></a></p>'+
+                           '</div>';
+                          str+='<p class="subtitle"> {{relate_book.author_intro}} </p>';
+                          str+='</div>';
+                          str+='</li>';
+                        });
+                      }
+                    });
+                 });
+              });
+
+            </script>
+</body>
+</html>
+
+
+
+ str+='<li class="line1" id="23668351">';
+                          str+='<div class="inner">';
+                          str+='<a title=" {{relate_book.book_name}} " class="pic" href="{% url 'testapp:book_details' %}?book_id={{relate_book.id}}" target="_blank">'+
+                          '<img src="{% static relate_book.product_image_path %}" alt=" {{relate_book.book_name}} "></a>';
+                          str+='<p class="name">';
+                          str+='<a title=" {{relate_book.book_name}} " href="{% url 'testapp:book_details' %}?book_id={{relate_book.id}}" target="_blank"> {{relate_book.book_name}} </a>';
+                          str+=' </p>';
+                          str+='<p class="star">'+
+              '<span class="level"><span style="width: 100%;"></span></span>'+
+              '<a href="#" target="_blank" name="P_pl">{{relate_book.comment}}条评论</a>'+
+              '</p>';
+                          str+='<div class="publisher_info">'+
+                          '<p class="author"><span></span><a href="#" name="P_zz" title="张皓宸">{{relate_book.author}}</a></p>'+
+                          '<p class="publishing_time"><span></span>/ {{relate_book.publish_time}} </p>'+
+                          '<p class="publishing"><span></span>/ <a href="#" name="P_cbs" title="{{relate_book.publisher}}">{{relate_book.publisher}}</a></p>'+
+                         '</div>';
+                          str+='<p class="detail"> {{relate_book.author_intro}} </p>'+
+            '<p class="dang" style="display: block;">当当自营</p>'+
+            '<p class="buy_button"><a class="listbtn_info" name="area_buy" dd_name="查看详情" href="javascript:goto_product(23668351)" >查看详情</a></p>'
+            +'<p class="price"> <span class="price_n">￥{{relate_book.rel_price}}</span><a style="color: #878787;text-decoration:none;">定价：</a><span class="price_r">￥{{relate_book.original_cost}}</span>(<span class="price_s">{% widthratio relate_book.rel_price relate_book.original_cost 10 %}折</span>)</p>';
+                          str+='<div class="ebook_buy">'+
+                          '<p class="buy_button"><a class="listbtn_buy" id="A13" dd_name="加入购物车" href="javascript:AddToShoppingCart('1900650091')" name="Buy"></a></p>'+
+                           '</div>';
+                          str+='<p class="subtitle"> {{relate_book.author_intro}} </p>';
+                          str+='</div>';
+                          str+='</li>';
+
+
+
+
+        
